@@ -1,3 +1,4 @@
+#include "../include/parser.h"
 #include <ctype.h>
 #include <fcntl.h>
 #include <signal.h>
@@ -103,4 +104,15 @@ void exe_cmd(char *cmd) {
   };
 };
 
-void exe_program(){};
+void exe_program(char *input) {
+
+  char **args = get_args(input);
+  size_t size = 0;
+
+  if (args) {
+    while (args[size] != NULL) {
+      printf("%s ", args[size++]);
+    }
+  }
+
+};
