@@ -102,17 +102,49 @@ void exe_cmd(char *cmd) {
   } else {
     perror("Error terminating child process");
   };
-};
+}
 
 void exe_program(char *input) {
 
-  char **args = get_args(input);
-  size_t size = 0;
-
-  if (args) {
-    while (args[size] != NULL) {
-      printf("%s ", args[size++]);
+  char **str = get_args(input);
+  char *cmd = str[0];
+  char **args;
+  size_t size = 1;
+  if (str) {
+    while (str[size] != NULL) {
+      args[size - 1] = str[size];
+      size++;
     }
   }
+
+
+ if (strlen(cmd) == 0) {
+    return;
+  };
+  char buffer[BUFFER_SIZE];
+  int fd[2];
+  int fd_pipe = pipe(fd);
+
+  pid_t cpid = fork();
+  if (cpid == -1) {
+    perror("fork()");
+  };
+
+  if (cpid == 0) {
+    dup2(fd[1], STDOUT_FILENO);
+    //execlp("ls", NULL);
+    printf("%s: command not found", cmd);
+    return;
+  } else {
+    size_t size = read(fd[0], buffer, BUFFER_SIZE);
+    buffer[size - 1] = '\0';
+    printf("%s", buffer);
+  };
+  if (kill(cpid, SIGTERM) == 0) {
+    return;
+  } else {
+    perror("Error terminating child process");
+  };
+
 
 };
