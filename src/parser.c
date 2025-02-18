@@ -47,6 +47,9 @@ bool isbuiltin(char *input) {
 };
 char **get_args(char *input) {
   size_t size = strlen(input);
+  
+
+/*
   char **args;
   args = (char **)malloc(100 * sizeof(char *));
   int k = 0;
@@ -79,6 +82,7 @@ char **get_args(char *input) {
   }
 
   free(word);
-
-  return args;
+*/
+ // printf("%s",*args);
+  //return args;
 };
