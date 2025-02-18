@@ -108,7 +108,6 @@ void exe_program(char *input) {
 
   char **str = get_args(input);
  
-
   //printf("%s",input);
  /*
   char *cmd = str[0];

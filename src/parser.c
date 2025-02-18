@@ -49,16 +49,13 @@ bool isbuiltin(char *input) {
 char **get_args(char *input) {
   size_t size = strlen(input);
 
-  //printf("%s", input);
-
-  // char *args[] = {};
   char *word = (char *)malloc((30 + 1) * sizeof(char));
-
+  char **args = (char **)malloc(200 * sizeof(char *));
+ 
   int word_counter = 0;
   int args_counter = 0;
 
   if (word == NULL) {
-    // Handle memory allocation failure
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
   }
@@ -70,54 +67,27 @@ char **get_args(char *input) {
     if (isspace(input[i]) == 0) {
       word[word_counter++] = input[i];
     } else {
-      printf("%s", word);
-      word[word_counter] = '\0';
-      // args[args_counter] = word;
-      // args_counter++;
-      // memset(word, 0, word_counter);
+      word[word_counter + 1] = '\0';
+      args[args_counter] = (char *)malloc((10 + 1) * sizeof(char));
+      if (args[args_counter] == NULL) {
+        fprintf(stderr, "Memory allocation failed for word %d\n", i);
+        exit(1);
+      }
+
+      args[args_counter] = word;
+      args_counter++;
       word_counter = 0;
     }
   };
 
-  /*
-    char **args;
-    args = (char **)malloc(100 * sizeof(char *));
-    int k = 0;
-    int j = 0;
-    char *word = malloc(sizeof(char) * (size + 1)); // +1 for null terminator
-    for (size_t i = 0; i < size; i++) {
-      if (input[i] == '"') {
-        continue;
-      }
-      if (isspace(input[i]) == 0) {
-        word[k++] = input[i];
-      } else {
-        word[k] = '\0';
-        args[j] = (char *)malloc(sizeof(char) * k + 1);
-        strcpy(args[j], word);
-        k = 0;
-        j++;
-      };
-    };
 
-    if (k > 0) {
-      word[k] = '\0';
-      args[j] = (char *)malloc(sizeof(char) * (k + 1));
-      if (args[j] == NULL) {
-        perror("Failed to allocate memory");
-        exit(EXIT_FAILURE);
-      }
-      strcpy(args[j], word);
-      j++;
-    }
 
-    free(word);
 
   for (size_t i = 0; i < 10; i++) {
 
     printf("%s", args[i]);
   }
 
-  */
-  // return args;
+
+  return args;
 };
