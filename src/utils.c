@@ -106,22 +106,12 @@ void exe_cmd(char *cmd) {
 
 void exe_program(char *input) {
 
-  char **str = get_args(input);
+  char **args = get_args(input);
+  char *cmd = get_cmd(input);
  
-  //printf("%s",input);
- /*
-  char *cmd = str[0];
-  char **args;
-  size_t size = 1;
-  if (str) {
-    while (str[size] != NULL) {
-      args[size] = str[size];
-      size++;
-    }
-  }
 
-
- if (strlen(cmd) == 0) {
+  /*
+  if (strlen(cmd) == 0) {
     return;
   };
 
@@ -136,7 +126,7 @@ void exe_program(char *input) {
 
   if (cpid == 0) {
     dup2(fd[1], STDOUT_FILENO);
-    execlp("ls", NULL);
+    execvp("ls ", args);
     printf("%s: command not found", cmd);
     return;
   } else {
@@ -149,9 +139,5 @@ void exe_program(char *input) {
   } else {
     perror("Error terminating child process");
   };
-
- */
-
- //memset(args, 0,size);
-
+  */
 };

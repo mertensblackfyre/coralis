@@ -46,22 +46,46 @@ bool isbuiltin(char *input) {
 
   return false;
 };
+
+char *get_cmd(char *input) {
+  size_t size = strlen(input);
+
+  char *cmd = (char *)malloc((30 + 1) * sizeof(char));
+
+  int char_counter = 0;
+  if (cmd == NULL) {
+    fprintf(stderr, "Memory allocation failed\n");
+    exit(1);
+  }
+
+  for (int i = 0; i < size; ++i) {
+    if (input[i] == '"')
+      continue;
+
+    if (isspace(input[i]) == 0)
+      cmd[char_counter++] = input[i];
+  };
+
+  return cmd;
+};
+
 char **get_args(char *input) {
   size_t size = strlen(input);
+
+  int cmd_size = strlen(get_cmd(input));
 
   char *word = (char *)malloc((30 + 1) * sizeof(char));
   char **args = (char **)malloc(200 * sizeof(char *));
 
   int word_counter = 0;
   int args_counter = 0;
-  int saver = 0;
 
   if (word == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
   }
 
-  for (int i = 0; i < size; ++i) {
+  for (int i = cmd_size; i < size; ++i) {
     if (input[i] == '"') {
       continue;
     }
