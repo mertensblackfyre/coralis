@@ -108,9 +108,7 @@ void exe_program(char *input) {
 
   char **args = get_args(input);
   char *cmd = get_cmd(input);
- 
 
-  /*
   if (strlen(cmd) == 0) {
     return;
   };
@@ -126,7 +124,7 @@ void exe_program(char *input) {
 
   if (cpid == 0) {
     dup2(fd[1], STDOUT_FILENO);
-    execvp("ls ", args);
+    execvp(cmd, args);
     printf("%s: command not found", cmd);
     return;
   } else {
@@ -139,5 +137,4 @@ void exe_program(char *input) {
   } else {
     perror("Error terminating child process");
   };
-  */
 };

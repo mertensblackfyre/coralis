@@ -3,6 +3,7 @@
 #include "../include/utils.h"
 #include <ctype.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,6 +65,8 @@ char *get_cmd(char *input) {
 
     if (isspace(input[i]) == 0)
       cmd[char_counter++] = input[i];
+    else
+      return cmd;
   };
 
   return cmd;
@@ -72,7 +75,7 @@ char *get_cmd(char *input) {
 char **get_args(char *input) {
   size_t size = strlen(input);
 
-  int cmd_size = strlen(get_cmd(input));
+  size_t cmd_size = strlen(get_cmd(input));
 
   char *word = (char *)malloc((30 + 1) * sizeof(char));
   char **args = (char **)malloc(200 * sizeof(char *));
@@ -107,6 +110,5 @@ char **get_args(char *input) {
 
   args[args_counter] = (char *)malloc((strlen(word) + 1) * sizeof(char));
   strcpy(args[args_counter++], word);
-
   return args;
 };
