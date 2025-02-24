@@ -1,14 +1,6 @@
-# MicroShell
+# Coralis
 
-MicroShell is a lightweight, user-friendly command-line interface designed for basic system interactions and task management.
-
-## Features
-
-- Basic command execution
-- Input/output redirection
-- Simple piping between commands
-- Built-in commands (e.g., cd, exit)
-- Command history
+Coralis is a lightweight, user-friendly command-line interface designed for basic system interactions and task management.
 
 ## Getting Started
 
@@ -19,7 +11,7 @@ MicroShell is a lightweight, user-friendly command-line interface designed for b
 
 ### Compilation
 
-To compile MicroShell, run:
+To compile Coralis, run:
 
 Create a build directory:
 
@@ -39,14 +31,14 @@ make
 
 ### Running MicroShell
 
-To start MicroShell, simply run:
+To start Coralis, simply run:
 
 ```
-./microshell
+./coralis
 ```
 ## Contributing
 
-Contributions to MicroShell are welcome. Please feel free to submit pull requests or open issues for bugs and feature requests.
+Contributions to Coralis are welcome. Please feel free to submit pull requests or open issues for bugs and feature requests.
 
 ## License
 
