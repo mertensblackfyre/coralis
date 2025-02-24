@@ -2,7 +2,6 @@
 #include "../include/utils.h"
 #include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -15,12 +14,7 @@ int main(void) {
     if (isbuiltin(input)) {
       continue;
     };
-    if (strstr(input, " ") != NULL) {
-      // contains
-    }
-
-    exe_program(input);
-    //exe_cmd(input);
+      exe_program(input);
   } while (true);
   return 0;
 };

@@ -4,4 +4,5 @@
 - [X] The exit and echo builtin
 - [X] The type builtin: builtins
 - [X] The type builtin: executable files
-- [] Run a program
+- [X] Run a program
+- [] Implement pwd

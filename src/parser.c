@@ -26,18 +26,18 @@ bool isbuiltin(char *input) {
   if (strncmp("exit", cmd, 4) == 0) {
     char **s = get_args(input);
     int n = atoi((char *)s);
-    micro_exit(n);
+    coralis_exit(n);
     return true;
   };
   if (strncmp("echo", cmd, 4) == 0) {
     char **s = get_args(input);
-    micro_echo(s);
+    coralis_echo(s);
     return true;
   };
 
   if (strncmp("type", cmd, 4) == 0) {
     char **s = get_args(input);
-    if (micro_type(s[1]))
+    if (coralis_type(s[1]))
       printf("%s is a shell builtin", s[1]);
     else
       get_path(s[1]);

@@ -7,8 +7,8 @@
 
 const char *builtin[] = {"echo", "type", "exit"};
 
-void micro_exit(int status) { exit(status); }
-void micro_echo(char **messeage) {
+void coralis_exit(int status) { exit(status); }
+void coralis_echo(char **messeage) {
   size_t size = sizeof(messeage);
   for (size_t i = 1; i < size; ++i) {
     if (messeage[i] == NULL) {
@@ -19,7 +19,7 @@ void micro_echo(char **messeage) {
   }
 };
 
-bool micro_type(char *arg) {
+bool coralis_type(char *arg) {
   size_t size = sizeof(builtin) / sizeof(builtin[0]);
 
   for (size_t i = 0; i < size; ++i) {

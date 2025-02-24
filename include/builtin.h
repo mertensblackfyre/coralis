@@ -5,8 +5,8 @@
 
 extern const char *builtin[];
 
-bool micro_type(char *arg);
-void micro_exit(int status);
-void micro_echo(char **messeage);
-
+bool coralis_type(char *arg);
+void coralis_exit(int status);
+void coralis_echo(char **messeage);
+void coralis_pwd();
 #endif

@@ -74,36 +74,6 @@ char *trim_space(char *string) {
   return string;
 };
 
-void exe_cmd(char *cmd) {
-  if (strlen(cmd) == 0) {
-    return;
-  };
-  char buffer[BUFFER_SIZE];
-  int fd[2];
-  int fd_pipe = pipe(fd);
-
-  pid_t cpid = fork();
-  if (cpid == -1) {
-    perror("fork()");
-  };
-
-  if (cpid == 0) {
-    dup2(fd[1], STDOUT_FILENO);
-    execlp(cmd, cmd, NULL);
-    printf("%s: command not found", cmd);
-    return;
-  } else {
-    size_t size = read(fd[0], buffer, BUFFER_SIZE);
-    buffer[size - 1] = '\0';
-    printf("%s", buffer);
-  };
-  if (kill(cpid, SIGTERM) == 0) {
-    return;
-  } else {
-    perror("Error terminating child process");
-  };
-}
-
 void exe_program(char *input) {
 
   char **args = get_args(input);
@@ -115,7 +85,9 @@ void exe_program(char *input) {
 
   char buffer[BUFFER_SIZE];
   int fd[2];
+  int fd_err[2];
   int fd_pipe = pipe(fd);
+  int fd_err_pipe = pipe(fd_err);
 
   pid_t cpid = fork();
   if (cpid == -1) {
@@ -124,14 +96,21 @@ void exe_program(char *input) {
 
   if (cpid == 0) {
     dup2(fd[1], STDOUT_FILENO);
+    dup2(fd_err[1], STDERR_FILENO);
     execvp(cmd, args);
     printf("%s: command not found", cmd);
     return;
   } else {
+    close(fd[1]);
+    close(fd_err[1]);
+
     size_t size = read(fd[0], buffer, BUFFER_SIZE);
     buffer[size - 1] = '\0';
     printf("%s", buffer);
   };
+
+  printf("Unknown arguments");
+
   if (kill(cpid, SIGTERM) == 0) {
     return;
   } else {

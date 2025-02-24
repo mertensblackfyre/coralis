@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(microshell)
+project(coralis)
 
 set(CMAKE_C_STANDARD 11)
 
@@ -12,5 +12,5 @@ set(SOURCES
     src/parser.c
 )
 
-add_executable(microshell ${SOURCES})
+add_executable(coralis ${SOURCES})
 
