@@ -7,14 +7,35 @@
 #include <string.h>
 #include <unistd.h>
 
-const char *builtin[] = {"echo", "type", "exit", "pwd"};
+#define SIZE 500
+const char *builtin[] = {"echo", "type", "exit", "pwd", "cd"};
+
+void coralis_cd(char **arg) {
+
+  char *new_path = malloc(sizeof(char *) * SIZE);
+  char *buffer = malloc(sizeof(char *) * SIZE);
+  char *path = arg[1];
+
+  getcwd(buffer, SIZE);
+
+  if (path[0] == '.') {
+    for (int i = 1; i < strlen(path); ++i)
+      new_path[i - 1] += path[i];
+
+    strcat(buffer, new_path);
+    chdir(buffer);
+    return;
+  }
+
+  chdir(path);
+};
 
 void coralis_pwd() {
   size_t size = 400;
   char *buffer = malloc(sizeof(char *) * size);
   getcwd(buffer, size);
 
-  printf("%s",buffer);
+  printf("%s", buffer);
 };
 
 void coralis_exit(int status) { exit(status); }

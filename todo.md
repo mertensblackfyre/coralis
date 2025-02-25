@@ -5,4 +5,9 @@
 - [X] The type builtin: builtins
 - [X] The type builtin: executable files
 - [X] Run a program
-- [] Implement pwd
+- [X] Implement pwd
+- [X] cd builtin: Absolute paths
+- [] Error handling for cd builtin: Absolute paths
+- [X] cd builtin: Relative paths
+- [] Error handling for cd builtin: Relative paths
+- []  cd builtin: Home directory 

@@ -38,9 +38,11 @@ bool isbuiltin(char *input) {
     coralis_pwd();
     return true;
   };
-
-
-
+  if (strncmp("cd", cmd, 2) == 0) {
+    char **s = get_args(input);
+    coralis_cd(s);
+    return true;
+  };
   if (strncmp("type", cmd, 4) == 0) {
     char **s = get_args(input);
     if (coralis_type(s[1]))
