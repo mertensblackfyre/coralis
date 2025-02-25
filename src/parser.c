@@ -34,6 +34,12 @@ bool isbuiltin(char *input) {
     coralis_echo(s);
     return true;
   };
+  if (strncmp("pwd", cmd, 3) == 0) {
+    coralis_pwd();
+    return true;
+  };
+
+
 
   if (strncmp("type", cmd, 4) == 0) {
     char **s = get_args(input);

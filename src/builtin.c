@@ -1,11 +1,21 @@
 #include "../include/builtin.h"
 #include "../include/utils.h"
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
-const char *builtin[] = {"echo", "type", "exit"};
+const char *builtin[] = {"echo", "type", "exit", "pwd"};
+
+void coralis_pwd() {
+  size_t size = 400;
+  char *buffer = malloc(sizeof(char *) * size);
+  getcwd(buffer, size);
+
+  printf("%s",buffer);
+};
 
 void coralis_exit(int status) { exit(status); }
 void coralis_echo(char **messeage) {
