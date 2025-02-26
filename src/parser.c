@@ -80,16 +80,19 @@ char *get_cmd(char *input) {
   return cmd;
 };
 
-char **get_args(char *input) {
+Args *get_args(char *input) {
+
+  Args *args = malloc(sizeof(Args) * 500);
   size_t size = strlen(input);
 
   size_t cmd_size = strlen(get_cmd(input));
 
   char *word = (char *)malloc((30 + 1) * sizeof(char));
-  char **args = (char **)malloc(200 * sizeof(char *));
+
+  args->data = (char **)malloc(200 * sizeof(char *));
+  args->size = 0;
 
   int word_counter = 0;
-  int args_counter = 0;
 
   if (word == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
@@ -105,18 +108,19 @@ char **get_args(char *input) {
       word[word_counter++] = input[i];
     } else {
       word[word_counter] = '\0';
-      args[args_counter] = (char *)malloc((word_counter + 1) * sizeof(char));
+      args->data[args->size] =
+          (char *)malloc((word_counter + 1) * sizeof(char));
 
-      if (args[args_counter] == NULL) {
+      if (args->data[args->size] == NULL) {
         fprintf(stderr, "Memory allocation failed for word %d\n", i);
         exit(1);
       }
-      strcpy(args[args_counter++], word);
+      strcpy(args->data[args->size++], word);
       word_counter = 0;
     }
   };
 
-  args[args_counter] = (char *)malloc((strlen(word) + 1) * sizeof(char));
-  strcpy(args[args_counter++], word);
+  args->data[args->size] = (char *)malloc((strlen(word) + 1) * sizeof(char));
+  strcpy(args->data[args->size++], word);
   return args;
 };

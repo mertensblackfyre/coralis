@@ -11,14 +11,21 @@
 #define SIZE 500
 const char *builtin[] = {"echo", "type", "exit", "pwd", "cd"};
 
-void coralis_cd(char **arg) {
-
+void coralis_cd(Args *args) {
   char *new_path = malloc(sizeof(char *) * SIZE);
   char *buffer = malloc(sizeof(char *) * SIZE);
-  char *path = arg[1];
+  char *path = args->data[1];
 
   getcwd(buffer, SIZE);
 
+  /*
+  if (strstr(path, "../") != NULL) {
+    for (int i = 0; i < length; ++i) {
+
+      printf("%s", arg[i]);
+    };
+  };
+  */
   if (path[0] == '~') {
     const char *env_variable = "HOME";
     char *value = getenv(env_variable);
@@ -33,6 +40,7 @@ void coralis_cd(char **arg) {
     path = buffer;
   }
 
+  /*
   int err = chdir(path);
 
   if (err == -1) {
@@ -45,7 +53,7 @@ void coralis_cd(char **arg) {
     if (errno == ENOTDIR)
       printf("Error: path is not a directory.");
   }
-
+*/
   return;
 };
 

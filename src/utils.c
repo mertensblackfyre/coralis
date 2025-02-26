@@ -76,7 +76,7 @@ char *trim_space(char *string) {
 
 void exe_program(char *input) {
 
-  char **args = get_args(input);
+  Args *args = get_args(input);
   char *cmd = get_cmd(input);
 
   if (strlen(cmd) == 0) {
@@ -97,7 +97,7 @@ void exe_program(char *input) {
   if (cpid == 0) {
     dup2(fd[1], STDOUT_FILENO);
     dup2(fd_err[1], STDERR_FILENO);
-    execvp(cmd, args);
+    execvp(cmd, args->data);
     printf("%s: command not found", cmd);
     return;
   } else {

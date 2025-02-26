@@ -1,6 +1,7 @@
 #ifndef BUILTIN_H
 #define BUILTIN_H
 
+#include "parser.h"
 #include <stdbool.h>
 
 extern const char *builtin[];
@@ -10,5 +11,5 @@ void coralis_exit(int status);
 void coralis_echo(char **messeage);
 void coralis_pwd();
 
-void coralis_cd(char **arg);
+void coralis_cd(Args *args);
 #endif
