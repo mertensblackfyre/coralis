@@ -1,4 +1,3 @@
-
 - [X] Handle invalid commands
 - [X] REPL
 - [X] The exit and echo builtin
@@ -7,7 +6,7 @@
 - [X] Run a program
 - [X] Implement pwd
 - [X] cd builtin: Absolute paths
-- [] Error handling for cd builtin: Absolute paths
+- [X] Error handling for cd builtin: Absolute paths
 - [X] cd builtin: Relative paths
-- [] Error handling for cd builtin: Relative paths
-- []  cd builtin: Home directory 
+- [X] Error handling for cd builtin: Relative paths
+- [X]  cd builtin: Home directory 

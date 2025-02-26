@@ -1,5 +1,6 @@
 #include "../include/builtin.h"
 #include "../include/utils.h"
+#include <errno.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -18,22 +19,39 @@ void coralis_cd(char **arg) {
 
   getcwd(buffer, SIZE);
 
+  if (path[0] == '~') {
+    const char *env_variable = "HOME";
+    char *value = getenv(env_variable);
+    path = value;
+  };
+
   if (path[0] == '.') {
     for (int i = 1; i < strlen(path); ++i)
       new_path[i - 1] += path[i];
 
     strcat(buffer, new_path);
-    chdir(buffer);
-    return;
+    path = buffer;
   }
 
-  chdir(path);
+  int err = chdir(path);
+
+  if (err == -1) {
+    if (errno == ENOENT)
+      printf("Error: directory specified in path does not exist.");
+
+    if (errno == EACCES)
+      printf("Error: permission was denied.");
+
+    if (errno == ENOTDIR)
+      printf("Error: path is not a directory.");
+  }
+
+  return;
 };
 
 void coralis_pwd() {
-  size_t size = 400;
-  char *buffer = malloc(sizeof(char *) * size);
-  getcwd(buffer, size);
+  char *buffer = malloc(sizeof(char *) * SIZE);
+  getcwd(buffer, SIZE);
 
   printf("%s", buffer);
 };
