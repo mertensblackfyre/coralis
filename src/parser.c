@@ -15,6 +15,7 @@ bool isbuiltin(char *input) {
   size_t size = strlen(input);
   char cmd[100];
 
+  Args *args = get_args(input);
   for (size_t i = 0; i < size; ++i) {
     if (input[i] != '\t' && input[i] != ' ') {
       cmd[i] = input[i];
@@ -24,14 +25,12 @@ bool isbuiltin(char *input) {
   };
 
   if (strncmp("exit", cmd, 4) == 0) {
-    char **s = get_args(input);
-    int n = atoi((char *)s);
+    int n = atoi((char *)args->data);
     coralis_exit(n);
     return true;
   };
   if (strncmp("echo", cmd, 4) == 0) {
-    char **s = get_args(input);
-    coralis_echo(s);
+    coralis_echo(args->data);
     return true;
   };
   if (strncmp("pwd", cmd, 3) == 0) {
@@ -39,16 +38,14 @@ bool isbuiltin(char *input) {
     return true;
   };
   if (strncmp("cd", cmd, 2) == 0) {
-    char **s = get_args(input);
-    coralis_cd(s);
+    coralis_cd(args);
     return true;
   };
   if (strncmp("type", cmd, 4) == 0) {
-    char **s = get_args(input);
-    if (coralis_type(s[1]))
-      printf("%s is a shell builtin", s[1]);
+    if (coralis_type(args->data[1]))
+      printf("%s is a shell builtin", args->data[1]);
     else
-      get_path(s[1]);
+      get_path(args->data[1]);
 
     return true;
   };
