@@ -11,6 +11,28 @@
 
 #define BUFFER_SIZE 20240
 
+char *backtrack_path(char *s, int count) {
+  size_t len = strlen(s);
+  for (int i = len; i > 0; --i) {
+    if (s[i] == '/')
+      count--;
+    if (count > 0)
+      s[i] = '\0';
+  };
+  return s;
+};
+int count_substrs(char *s) {
+
+  size_t size = strlen(s);
+  int count = 0;
+
+  while ((s = strstr(s, "../")) != NULL) {
+    count++;
+    memmove(s, s + 3, strlen(s + 3) + 1);
+  };
+  return count;
+};
+
 char *get_input() {
   char *input = malloc(sizeof(char) * 100);
   char *s = fgets(input, 100, stdin);

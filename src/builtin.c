@@ -18,14 +18,11 @@ void coralis_cd(Args *args) {
 
   getcwd(buffer, SIZE);
 
-  /*
   if (strstr(path, "../") != NULL) {
-    for (int i = 0; i < length; ++i) {
-
-      printf("%s", arg[i]);
-    };
+    int x = count_substrs(path);
+    path = backtrack_path(buffer, x);
   };
-  */
+
   if (path[0] == '~') {
     const char *env_variable = "HOME";
     char *value = getenv(env_variable);
@@ -40,7 +37,6 @@ void coralis_cd(Args *args) {
     path = buffer;
   }
 
-  /*
   int err = chdir(path);
 
   if (err == -1) {
@@ -53,7 +49,6 @@ void coralis_cd(Args *args) {
     if (errno == ENOTDIR)
       printf("Error: path is not a directory.");
   }
-*/
   return;
 };
 
