@@ -12,6 +12,16 @@
 const char *builtin[] = {"echo", "type", "exit", "pwd", "cd"};
 
 void coralis_cd(Args *args) {
+
+  if (args->size == 0) {
+    const char *env_variable = "HOME";
+    char *value = getenv(env_variable);
+    char *path = value;
+
+    int err = chdir(path);
+    return;
+  };
+
   char *new_path = malloc(sizeof(char *) * SIZE);
   char *buffer = malloc(sizeof(char *) * SIZE);
   char *path = args->data[1];

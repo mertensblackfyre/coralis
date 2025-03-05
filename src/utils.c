@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +11,16 @@
 #include <unistd.h>
 
 #define BUFFER_SIZE 20240
+
+bool has_args(char *input) {
+  int count = 0;
+  size_t size = strlen(input);
+  for (int i = 0; i < size; ++i)
+    if (input[i] == ' ')
+      count++;
+
+  return count == 0;
+};
 
 char *backtrack_path(char *s, int count) {
   size_t len = strlen(s);

@@ -12,6 +12,7 @@
 #include <unistd.h>
 
 bool isbuiltin(char *input) {
+
   size_t size = strlen(input);
   char cmd[100];
 
@@ -79,18 +80,23 @@ char *get_cmd(char *input) {
 
 Args *get_args(char *input) {
 
-  Args *args = malloc(sizeof(Args) * 500);
   size_t size = strlen(input);
+  Args *args = malloc(sizeof(Args) * 500);
+
+  if (args == NULL) {
+    fprintf(stderr, "Memory allocation failed\n");
+    exit(1);
+  }
+
+  if (has_args(input))
+    return args;
 
   size_t cmd_size = strlen(get_cmd(input));
 
   char *word = (char *)malloc((30 + 1) * sizeof(char));
-
   args->data = (char **)malloc(200 * sizeof(char *));
   args->size = 0;
-
   int word_counter = 0;
-
   if (word == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
