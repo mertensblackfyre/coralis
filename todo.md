@@ -9,4 +9,4 @@
 - [X] Error handling for cd builtin: Absolute paths
 - [X] cd builtin: Relative paths
 - [X] Error handling for cd builtin: Relative paths
-- [X]  cd builtin: Home directory 
+- [X] cd builtin: Home directory 

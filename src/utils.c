@@ -32,6 +32,7 @@ char *backtrack_path(char *s, int count) {
   };
   return s;
 };
+
 int count_substrs(char *s) {
 
   size_t size = strlen(s);

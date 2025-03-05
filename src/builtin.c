@@ -30,7 +30,9 @@ void coralis_cd(Args *args) {
 
   if (strstr(path, "../") != NULL) {
     int x = count_substrs(path);
+    char *tmp = path;
     path = backtrack_path(buffer, x);
+    strncat(path, tmp, strlen(tmp));
   };
 
   if (path[0] == '~') {
