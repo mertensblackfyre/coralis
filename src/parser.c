@@ -103,9 +103,6 @@ Args *get_args(char *input) {
   }
 
   for (int i = cmd_size; i < size; ++i) {
-    if (input[i] == '"') {
-      continue;
-    }
 
     if (isspace(input[i]) == 0) {
       word[word_counter++] = input[i];

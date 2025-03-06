@@ -72,14 +72,27 @@ void coralis_pwd() {
 };
 
 void coralis_exit(int status) { exit(status); }
+
 void coralis_echo(char **messeage) {
   size_t size = sizeof(messeage);
-  for (size_t i = 1; i < size; ++i) {
+
+  for (size_t i = 0; i < size; ++i) {
     if (messeage[i] == NULL) {
       continue;
     };
-    printf("%s", messeage[i]);
-    printf(" ");
+
+    if (messeage[i][0] == '"') {
+      int j = 0;
+      while (messeage[i][j] != '"') {
+
+        printf("%c", messeage[i][j]);
+        j++;
+      };
+      printf(" ");
+      /// for (size_t j = 0; j < size; ++j) {
+
+      //}
+    }
   }
 };
 

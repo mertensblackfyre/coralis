@@ -141,6 +141,7 @@ void exe_program(char *input) {
     size_t size = read(fd[0], buffer, BUFFER_SIZE);
     buffer[size - 1] = '\0';
     printf("%s", buffer);
+    return;
   };
 
   printf("Unknown arguments");
