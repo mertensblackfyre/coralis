@@ -31,7 +31,6 @@ bool isbuiltin(char *input) {
     return true;
   };
   if (strncmp("echo", cmd, 4) == 0) {
-      //printf("%s",args->data[1]);
     coralis_echo(args);
     return true;
   };
