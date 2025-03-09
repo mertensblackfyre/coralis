@@ -10,7 +10,7 @@
 - [X] cd builtin: Relative paths
 - [X] Error handling for cd builtin: Relative paths
 - [X] cd builtin: Home directory 
-- [] Single quotes
-- [] Double quotes
+- [X] Single quotes
+- [X] Double quotes
 - [] Backslash outside quotes
 - [] Backslash within single quotes
