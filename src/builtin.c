@@ -86,17 +86,19 @@ void coralis_echo(Args *data) {
       uintptr_t int_value = message[i][j];
       char *tmp = (char *)int_value;
 
-      if (message[i][j] == '"' || message[i][j] == '\'') {
+      if ((message[i][j] == '"' || message[i][j] == '\'') && in_quote == true)
+        in_quote = false;
 
-          in_quote = true;
+      if ((message[i][j] == '"' || message[i][j] == '\'' )&& in_quote ==false) {
+        in_quote = true;
+        continue;
+      };
+
+      if (in_quote && message[i][j] == '\\') {
+          printf("tr");
+        //printf("\\");
         continue;
       }
-
-      /*
-      if (message[i][j] == '\\') {
-          printf(" ");
-      }
-      */
 
       printf("%c", message[i][j]);
     }
