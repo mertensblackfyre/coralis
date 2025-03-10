@@ -83,6 +83,9 @@ Args *get_args(char *input) {
   size_t size = strlen(input);
   Args *args = malloc(sizeof(Args) * 500);
 
+  bool in_single_quote = false;
+  bool in_double_quote = false;
+
   if (args == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
@@ -104,7 +107,19 @@ Args *get_args(char *input) {
 
   for (int i = cmd_size; i < size; ++i) {
 
-    if (isspace(input[i]) == 0) {
+    if (input[i] == '\'' && !in_single_quote) {
+      in_single_quote = true;
+    }
+    if (input[i] == '\'' && in_single_quote)
+      in_single_quote = false;
+
+    if (input[i] == '"' && !in_double_quote) {
+      in_double_quote = true;
+    }
+    if (input[i] == '"' && in_double_quote)
+      in_double_quote = false;
+
+    if (in_double_quote || in_single_quote) {
       word[word_counter++] = input[i];
     } else {
       word[word_counter] = '\0';
@@ -117,6 +132,23 @@ Args *get_args(char *input) {
       }
       strcpy(args->data[args->size++], word);
       word_counter = 0;
+    }
+    if (!in_single_quote && !in_double_quote) {
+
+      if (isspace(input[i]) == 0) {
+        word[word_counter++] = input[i];
+      } else {
+        word[word_counter] = '\0';
+        args->data[args->size] =
+            (char *)malloc((word_counter + 1) * sizeof(char));
+
+        if (args->data[args->size] == NULL) {
+          fprintf(stderr, "Memory allocation failed for word %d\n", i);
+          exit(1);
+        }
+        strcpy(args->data[args->size++], word);
+        word_counter = 0;
+      }
     }
   };
 
