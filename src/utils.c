@@ -12,6 +12,14 @@
 
 #define BUFFER_SIZE 20240
 
+char *handle_str(Args *data) {
+
+  char *s = "a";
+
+  printf("%s", data->data[1]);
+  return s;
+};
+
 bool has_args(char *input) {
   int count = 0;
   size_t size = strlen(input);
