@@ -106,20 +106,38 @@ Args *get_args(char *input) {
   }
 
   for (int i = cmd_size; i < size; ++i) {
+    /*
+  if (input[i] == '\'' && !in_single_quote) {
+    in_single_quote = true;
+  }
+  if (input[i] == '\'' && in_single_quote)
+    in_single_quote = false;
 
-    if (input[i] == '\'' && !in_single_quote) {
-      in_single_quote = true;
-    }
-    if (input[i] == '\'' && in_single_quote)
-      in_single_quote = false;
+   */
 
-    if (input[i] == '"' && !in_double_quote) {
+    if (input[i] == '"' && !in_double_quote)
       in_double_quote = true;
-    }
-    if (input[i] == '"' && in_double_quote)
-      in_double_quote = false;
 
-    if (in_double_quote || in_single_quote) {
+    while (in_double_quote || input[i] != in_double_quote) {
+      word[word_counter++] = input[i++];
+
+      if (input[i] == '"') {
+        in_double_quote = false;
+        word[word_counter] = '\0';
+        args->data[args->size] =
+            (char *)malloc((word_counter + 1) * sizeof(char));
+
+        if (args->data[args->size] == NULL) {
+          fprintf(stderr, "Memory allocation failed for word %d\n", i);
+          exit(1);
+        }
+        strcpy(args->data[args->size++], word);
+        word_counter = 0;
+        break;
+      }
+    };
+
+    if (isspace(input[i]) == 0 && !in_double_quote) {
       word[word_counter++] = input[i];
     } else {
       word[word_counter] = '\0';
@@ -132,23 +150,6 @@ Args *get_args(char *input) {
       }
       strcpy(args->data[args->size++], word);
       word_counter = 0;
-    }
-    if (!in_single_quote && !in_double_quote) {
-
-      if (isspace(input[i]) == 0) {
-        word[word_counter++] = input[i];
-      } else {
-        word[word_counter] = '\0';
-        args->data[args->size] =
-            (char *)malloc((word_counter + 1) * sizeof(char));
-
-        if (args->data[args->size] == NULL) {
-          fprintf(stderr, "Memory allocation failed for word %d\n", i);
-          exit(1);
-        }
-        strcpy(args->data[args->size++], word);
-        word_counter = 0;
-      }
     }
   };
 
