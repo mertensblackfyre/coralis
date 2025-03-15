@@ -103,7 +103,8 @@ Args *get_args(char *input) {
   if (word == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
-  }
+  };
+  int k = 0;
 
   for (int i = cmd_size; i < size; ++i) {
     /*
@@ -118,8 +119,9 @@ Args *get_args(char *input) {
     if (input[i] == '"' && !in_double_quote)
       in_double_quote = true;
 
-    while (in_double_quote || input[i] != in_double_quote) {
-      word[word_counter++] = input[i++];
+    while (in_double_quote) {
+      word[word_counter++] = input[i];
+      i++;
 
       if (input[i] == '"') {
         in_double_quote = false;
