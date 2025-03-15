@@ -16,8 +16,7 @@ char *handle_str(Args *data) {
 
   char *s = "a";
 
-  for (int i = 0; i < data->size; ++i) {
-
+  for (int i = 1; i < data->size - 1; ++i) {
     printf("%s", data->data[i]);
   }
   return s;

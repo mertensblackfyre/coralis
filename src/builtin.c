@@ -75,38 +75,7 @@ void coralis_pwd() {
 void coralis_exit(int status) { exit(status); }
 
 void coralis_echo(Args *data) {
-
-  bool in_quote = false;
-  handle_str(data);
-  /*
-    char **message = data->data;
-    for (size_t i = 1; i < data->size; ++i) {
-      if (message[i] == NULL)
-        continue;
-
-      for (size_t j = 0; j < strlen(message[i]); ++j) {
-        uintptr_t int_value = message[i][j];
-        char *tmp = (char *)int_value;
-
-        if ((message[i][j] == '"' || message[i][j] == '\'') && in_quote == true)
-          in_quote = false;
-
-        if ((message[i][j] == '"' || message[i][j] == '\'') &&
-            in_quote == false) {
-          in_quote = true;
-          continue;
-        };
-
-        if (in_quote && message[i][j] == '\\') {
-          continue;
-        }
-
-        printf("%c", message[i][j]);
-      }
-
-      printf(" ");
-    }
-    */
+  printf("%s", data->data[1]);
 };
 
 bool coralis_type(char *arg) {
