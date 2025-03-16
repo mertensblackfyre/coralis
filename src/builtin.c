@@ -74,9 +74,7 @@ void coralis_pwd() {
 
 void coralis_exit(int status) { exit(status); }
 
-void coralis_echo(Args *data) {
-  printf("%s", data->data[1]);
-};
+void coralis_echo(Args *data) { handle_str(data); };
 
 bool coralis_type(char *arg) {
   size_t size = sizeof(builtin) / sizeof(builtin[0]);
