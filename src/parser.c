@@ -99,6 +99,7 @@ Args *get_args(char *input) {
   char *word = (char *)malloc((100 + 1) * sizeof(char));
   args->data = (char **)malloc(200 * sizeof(char *));
   args->size = 0;
+
   int word_counter = 0;
 
   if (word == NULL) {
@@ -115,8 +116,7 @@ Args *get_args(char *input) {
       in_double_quote = true;
 
     while (in_double_quote || in_single_quote) {
-
-
+      i++;
       if (input[i] == '"' || input[i] == '\'') {
 
         if (input[i] == '"')
@@ -125,7 +125,7 @@ Args *get_args(char *input) {
         if (input[i] == '\'')
           in_single_quote = false;
 
-        word[word_counter] = '\0';
+        word[word_counter + 1] = '\0';
         args->data[args->size] =
             (char *)malloc((word_counter + 1) * sizeof(char));
 
@@ -141,12 +141,10 @@ Args *get_args(char *input) {
       word[word_counter++] = input[i];
     }
 
-    /*
     if (isspace(input[i]) == 0) {
       word[word_counter++] = input[i];
       continue;
     } else {
-      word[word_counter] = ' ';
       word[word_counter + 1] = '\0';
       args->data[args->size] =
           (char *)malloc((word_counter + 2) * sizeof(char));
@@ -158,7 +156,6 @@ Args *get_args(char *input) {
       strcpy(args->data[args->size++], word);
       word_counter = 0;
     }
-    */
   };
 
   args->data[args->size] = (char *)malloc((strlen(word) + 1) * sizeof(char));
