@@ -17,6 +17,7 @@ bool isbuiltin(char *input) {
   char cmd[100];
 
   Args *args = get_args(input);
+
   for (size_t i = 0; i < size; ++i) {
     if (input[i] != '\t' && input[i] != ' ') {
       cmd[i] = input[i];
@@ -85,6 +86,7 @@ Args *get_args(char *input) {
 
   bool in_single_quote = false;
   bool in_double_quote = false;
+  bool backslash = false;
 
   if (args == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
@@ -111,7 +113,6 @@ Args *get_args(char *input) {
   }
 
   for (int i = cmd_size; i < size; ++i) {
-
     if (input[i] == '\'' && !in_double_quote) {
       in_single_quote = !in_single_quote;
       continue;
@@ -121,6 +122,12 @@ Args *get_args(char *input) {
       continue;
     }
 
+    /*
+    if (backslash == true) {
+      in_double_quote = false;
+      in_single_quote = false;
+    };
+
     if (input[i] == '\\' && (in_double_quote || in_single_quote)) {
       if (input[i + 1] != EOF && isspace(input[i + 1])) {
         word[word_counter++] = input[i];
@@ -128,8 +135,13 @@ Args *get_args(char *input) {
       }
     }
 
+    if (input[i] == '\\') {
+      backslash = true;
+    };
+
+
     if (input[i] == '\\' && !in_double_quote && !in_single_quote) {
-      word[word_counter++] = ' ';
+      // word[word_counter++] = ' ';
       if (input[i + 1] != EOF && (input[i + 1] == '$' || input[i + 1] == '"' ||
                                   input[i + 1] == '\'')) {
         word[word_counter++] = input[i + 1];
@@ -141,7 +153,7 @@ Args *get_args(char *input) {
       }
       continue;
     };
-
+*/
     if (isspace(input[i]) && !in_single_quote && !in_double_quote) {
       if (word_counter > 0) {
         word[word_counter] = '\0';
@@ -171,5 +183,9 @@ Args *get_args(char *input) {
   }
 
   free(word);
+
+  for (size_t i = 0; i < args->size; ++i) {
+    printf("%s", args->data[i]);
+  }
   return args;
 };

@@ -1,16 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
-project(coralis)
+project(CoralisProject)
 
-set(CMAKE_C_STANDARD 11)
+# Set C standard (optional)
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
-include_directories(include)
+# Include directories
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
-set(SOURCES
-    src/main.c
-    src/builtin.c
-    src/utils.c
-    src/parser.c
-)
+# Add the source code
+add_subdirectory(src)
 
-add_executable(coralis ${SOURCES})
-
+# Add the tests
+add_subdirectory(tests)
