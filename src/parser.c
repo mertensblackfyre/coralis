@@ -121,6 +121,27 @@ Args *get_args(char *input) {
       continue;
     }
 
+    if (input[i] == '\\' && (in_double_quote || in_single_quote)) {
+      if (input[i + 1] != EOF && isspace(input[i + 1])) {
+        word[word_counter++] = input[i];
+        continue;
+      }
+    }
+
+    if (input[i] == '\\' && !in_double_quote && !in_single_quote) {
+      word[word_counter++] = ' ';
+      if (input[i + 1] != EOF && (input[i + 1] == '$' || input[i + 1] == '"' ||
+                                  input[i + 1] == '\'')) {
+        word[word_counter++] = input[i + 1];
+        continue;
+      } else {
+
+        word[word_counter++] = input[i + 1];
+        continue;
+      }
+      continue;
+    };
+
     if (isspace(input[i]) && !in_single_quote && !in_double_quote) {
       if (word_counter > 0) {
         word[word_counter] = '\0';
