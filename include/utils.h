@@ -3,7 +3,7 @@
 
 
 #include "parser.h"
-bool has_args(char* input);
+bool has_args(const char* input);
 int count_substrs(char *s);
 char *backtrack_path(char *s, int count);
 char *get_input();

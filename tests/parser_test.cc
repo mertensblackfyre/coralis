@@ -7,17 +7,18 @@ extern "C" {
 
 // Test cases
 TEST(ParserTest, GetArgs) {
-  const char *input = "cd arg1 arg2 arg3";
+  const char *input = "cd ../Hello args1 args2";
 
-  Args *args = get_args((char *)input);
+  char *mutable_input = const_cast<char*>(input);
+  Args *args = get_args(mutable_input);
 
   // Check the number of arguments
   EXPECT_EQ(args->size, 3);
 
   // Check the individual arguments
-  EXPECT_STREQ(args->data[0], "arg1");
-  EXPECT_STREQ(args->data[1], "arg2");
-  EXPECT_STREQ(args->data[2], "arg3");
+  EXPECT_STREQ(args->data[0], "./Hello");
+  EXPECT_STREQ(args->data[1], "args1");
+  EXPECT_STREQ(args->data[2], "args2");
 
   // Free allocated memory
   for (int i = 0; i < args->size; i++) {

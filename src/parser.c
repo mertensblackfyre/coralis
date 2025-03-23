@@ -40,7 +40,7 @@ bool isbuiltin(char *input) {
     return true;
   };
   if (strncmp("cd", cmd, 2) == 0) {
-    coralis_cd(args);
+  //  coralis_cd(args);
     return true;
   };
   if (strncmp("type", cmd, 4) == 0) {
@@ -184,8 +184,6 @@ Args *get_args(char *input) {
 
   free(word);
 
-  for (size_t i = 0; i < args->size; ++i) {
-    printf("%s", args->data[i]);
-  }
+    printf("%s", args->data[0]);
   return args;
 };
