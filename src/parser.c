@@ -40,14 +40,14 @@ bool isbuiltin(char *input) {
     return true;
   };
   if (strncmp("cd", cmd, 2) == 0) {
-  //  coralis_cd(args);
+    coralis_cd(args);
     return true;
   };
   if (strncmp("type", cmd, 4) == 0) {
-    if (coralis_type(args->data[1]))
-      printf("%s is a shell builtin", args->data[1]);
+    if (coralis_type(args->data[0]))
+      printf("%s is a shell builtin", args->data[0]);
     else
-      get_path(args->data[1]);
+      get_path(args->data[0]);
 
     return true;
   };
@@ -184,6 +184,9 @@ Args *get_args(char *input) {
 
   free(word);
 
-    printf("%s", args->data[0]);
+  // Free allocated memory
+  for (int i = 0; i < args->size; i++) {
+    printf("%s here\n", args->data[i]);
+  }
   return args;
 };
