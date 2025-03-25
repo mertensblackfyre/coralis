@@ -25,7 +25,7 @@ void coralis_cd(Args *args) {
 
   char *new_path = malloc(sizeof(char *) * SIZE);
   char *buffer = malloc(sizeof(char *) * SIZE);
-  char *path = args->data[0];
+  char *path = args->data[1];
 
   getcwd(buffer, SIZE);
 
@@ -72,7 +72,7 @@ void coralis_pwd() {
   printf("%s", buffer);
 };
 
-void coralis_exit(int status) { exit(status); }
+void coralis_exit(int status) { exit(1); }
 
 void coralis_echo(Args *data) { handle_str(data); };
 

@@ -27,6 +27,10 @@ bool isbuiltin(char *input) {
   };
 
   if (strncmp("exit", cmd, 4) == 0) {
+    if (args->size == 0) {
+      coralis_exit(1);
+      return true;
+    }
     int n = atoi((char *)args->data);
     coralis_exit(n);
     return true;
@@ -44,10 +48,10 @@ bool isbuiltin(char *input) {
     return true;
   };
   if (strncmp("type", cmd, 4) == 0) {
-    if (coralis_type(args->data[0]))
-      printf("%s is a shell builtin", args->data[0]);
+    if (coralis_type(args->data[1]))
+      printf("%s is a shell builtin", args->data[1]);
     else
-      get_path(args->data[0]);
+      get_path(args->data[1]);
 
     return true;
   };
@@ -78,33 +82,27 @@ char *get_cmd(char *input) {
 
   return cmd;
 };
-
 Args *get_args(char *input) {
 
   size_t size = strlen(input);
-  Args *args = malloc(sizeof(Args));
+  Args *args = malloc(sizeof(Args) * 500);
 
   bool in_single_quote = false;
   bool in_double_quote = false;
-  bool backslash = false;
 
   if (args == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
     exit(1);
   }
 
-  if (has_args(input)) {
-    args->data = NULL;
-    args->size = 0;
+  if (has_args(input))
     return args;
-  }
 
   size_t cmd_size = strlen(get_cmd(input));
 
-  char *word = (char *)malloc((500 + 1) * sizeof(char));
+  char *word = (char *)malloc((30 + 1) * sizeof(char));
   args->data = (char **)malloc(200 * sizeof(char *));
   args->size = 0;
-
   int word_counter = 0;
 
   if (word == NULL || args->data == NULL) {
@@ -113,7 +111,8 @@ Args *get_args(char *input) {
   }
 
   for (int i = cmd_size; i < size; ++i) {
-    if (input[i] == '\'' && !in_double_quote) {
+    
+      if (input[i] == '\'' && !in_double_quote) {
       in_single_quote = !in_single_quote;
       continue;
     }
@@ -122,71 +121,25 @@ Args *get_args(char *input) {
       continue;
     }
 
-    /*
-    if (backslash == true) {
-      in_double_quote = false;
-      in_single_quote = false;
-    };
-
-    if (input[i] == '\\' && (in_double_quote || in_single_quote)) {
-      if (input[i + 1] != EOF && isspace(input[i + 1])) {
-        word[word_counter++] = input[i];
-        continue;
-      }
-    }
-
-    if (input[i] == '\\') {
-      backslash = true;
-    };
-
-
-    if (input[i] == '\\' && !in_double_quote && !in_single_quote) {
-      // word[word_counter++] = ' ';
-      if (input[i + 1] != EOF && (input[i + 1] == '$' || input[i + 1] == '"' ||
-                                  input[i + 1] == '\'')) {
-        word[word_counter++] = input[i + 1];
-        continue;
-      } else {
-
-        word[word_counter++] = input[i + 1];
-        continue;
-      }
-      continue;
-    };
-*/
-    if (isspace(input[i]) && !in_single_quote && !in_double_quote) {
-      if (word_counter > 0) {
-        word[word_counter] = '\0';
-        args->data[args->size] =
-            (char *)malloc((word_counter + 1) * sizeof(char));
-
-        if (args->data[args->size] == NULL) {
-          fprintf(stderr, "Memory allocation failed for word %d\n", i);
-          exit(1);
-        }
-        strcpy(args->data[args->size++], word);
-        word_counter = 0;
-      }
-    } else {
+    if (isspace(input[i]) == 0) {
       word[word_counter++] = input[i];
-    };
+    } else {
+      word[word_counter] = '\0';
+      args->data[args->size] =
+          (char *)malloc((word_counter + 1) * sizeof(char));
+
+      if (args->data[args->size] == NULL) {
+        fprintf(stderr, "Memory allocation failed for word %d\n", i);
+        exit(1);
+      }
+      strcpy(args->data[args->size++], word);
+      word_counter = 0;
+    }
   };
 
-  if (word_counter > 0) {
-    word[word_counter] = '\0';
-    args->data[args->size] = malloc((word_counter + 1) * sizeof(char));
-    if (args->data[args->size] == NULL) {
-      fprintf(stderr, "Memory allocation failed for the last word\n");
-      exit(1);
-    }
-    strcpy(args->data[args->size++], word);
-  }
+  args->data[args->size] = (char *)malloc((strlen(word) + 1) * sizeof(char));
+  strcpy(args->data[args->size++], word);
 
-  free(word);
-
-  // Free allocated memory
-  for (int i = 0; i < args->size; i++) {
-    printf("%s here\n", args->data[i]);
-  }
+  // free(word);
   return args;
 };
