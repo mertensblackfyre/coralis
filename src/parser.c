@@ -82,6 +82,67 @@ char *get_cmd(char *input) {
 
   return cmd;
 };
+
+Args *get_args(char *input) {
+
+  char *ar[300] = {};
+  size_t size = strlen(input);
+  Args *args = malloc(sizeof(Args));
+  size_t cmd_size = strlen(get_cmd(input));
+
+  int k = 0;
+  bool in_single_quote = false;
+  bool in_double_quote = false;
+
+  if (args == NULL) {
+    fprintf(stderr, "Memory allocation failed\n");
+    exit(1);
+  }
+
+  if (has_args(input))
+    return args;
+
+  char *word = (char *)malloc((30 + 1) * sizeof(char));
+  // args->data = (char **)malloc(200 * sizeof(char *));
+  // args->size = 0;
+  int word_counter = 0;
+
+  if (word == NULL) {
+    fprintf(stderr, "Memory allocation failed\n");
+    exit(1);
+  }
+  for (int i = cmd_size + 1; i < size; ++i) {
+    if (isspace(input[i])) {
+      word[word_counter] = '\0';
+      //ar[k] = (char *)malloc((word_counter + 1) * sizeof(char));
+
+      // args->data[args->size] =
+      //  (char *)malloc((word_counter + 1) * sizeof(char));
+      /*
+            if (args->data[args->size] == NULL) {
+              fprintf(stderr, "Memory allocation failed for word %d\n", i);
+              exit(1);
+            }
+            */
+     strcpy(ar[k++], word);
+      word_counter = 0;
+    } else {
+      word[word_counter++] = input[i];
+    }
+  };
+
+  if (word_counter > 0) {
+
+   // strcpy(ar[k++], word);
+    // args->data[args->size] = (char *)malloc((strlen(word) + 1) *
+    // sizeof(char));
+    // strcpy(args->data[args->size++], word);
+  }
+  printf("%s", ar[0]);
+  return args;
+};
+
+/*
 Args *get_args(char *input) {
 
   size_t size = strlen(input);
@@ -111,8 +172,8 @@ Args *get_args(char *input) {
   }
 
   for (int i = cmd_size; i < size; ++i) {
-    
-      if (input[i] == '\'' && !in_double_quote) {
+
+    if (input[i] == '\'' && !in_double_quote) {
       in_single_quote = !in_single_quote;
       continue;
     }
@@ -121,6 +182,11 @@ Args *get_args(char *input) {
       continue;
     }
 
+    if (input[i] == '\\' && isspace(input[i + 1])) {
+      word[word_counter++] = input[i];
+      word[word_counter++] = input[++i];
+      continue;
+    }
     if (isspace(input[i]) == 0) {
       word[word_counter++] = input[i];
     } else {
@@ -140,6 +206,8 @@ Args *get_args(char *input) {
   args->data[args->size] = (char *)malloc((strlen(word) + 1) * sizeof(char));
   strcpy(args->data[args->size++], word);
 
+  printf("%s", args->data[1]);
   // free(word);
   return args;
 };
+*/

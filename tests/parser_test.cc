@@ -1,5 +1,5 @@
-#include <cstdlib>
 #include "gtest/gtest.h"
+#include <cstdlib>
 
 extern "C" {
 #include "../include/parser.h"
@@ -9,16 +9,14 @@ extern "C" {
 TEST(ParserTest, GetArgs) {
   const char *input = "ls -alps";
 
-  char *mutable_input = const_cast<char*>(input);
+  char *mutable_input = const_cast<char *>(input);
   Args *args = get_args(mutable_input);
 
   // Check the number of arguments
   EXPECT_EQ(args->size, 1);
 
   // Check the individual arguments
-  EXPECT_STREQ(args->data[0], "-alps");
-  //EXPECT_STREQ(args->data[1], "args1");
- // EXPECT_STREQ(args->data[2], "args2");
+  EXPECT_STREQ(args->data[1], "-alps");
 
   // Free allocated memory
   for (int i = 0; i < args->size; i++) {
