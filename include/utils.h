@@ -11,7 +11,7 @@ void get_path(char *cmd);
 void exe_cmd(char *cmd);
 char *trim_space(char *string);
 void exec(char *string);
-void exe_program(char *cmd);
+void utils_execute_program(char *cmd);
 void find_program();
 char *handle_str(Args *data);
 

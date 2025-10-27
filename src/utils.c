@@ -59,7 +59,6 @@ char *get_input() {
   char *input = malloc(sizeof(char) * 100);
   char *s = fgets(input, 100, stdin);
   input[strlen(input) - 1] = '\0';
-
   return input;
 };
 
@@ -118,7 +117,7 @@ char *trim_space(char *string) {
   return string;
 };
 
-void exe_program(char *input) {
+void utils_execute_program(char *input) {
 
   Args *args = get_args(input);
   char *cmd = get_cmd(input);
@@ -129,36 +128,33 @@ void exe_program(char *input) {
 
   char buffer[BUFFER_SIZE];
   int fd[2];
-  int fd_err[2];
-  int fd_pipe = pipe(fd);
-  int fd_err_pipe = pipe(fd_err);
 
+  int fd_pipe = pipe(fd);
   pid_t cpid = fork();
+
   if (cpid == -1) {
     perror("fork()");
+    return;
   };
 
   if (cpid == 0) {
     dup2(fd[1], STDOUT_FILENO);
-    dup2(fd_err[1], STDERR_FILENO);
-    execvp(cmd, args->data);
+    char *args[] = {cmd, NULL};
+    execvp(cmd, args);
     printf("%s: command not found", cmd);
     return;
   } else {
-    close(fd[1]);
-    close(fd_err[1]);
-
     size_t size = read(fd[0], buffer, BUFFER_SIZE);
-    buffer[size - 1] = '\0';
+    buffer[size] = '\0';
+    close(fd[0]);
+    close(fd[1]);
     printf("%s", buffer);
-    return;
   };
-
-  printf("Unknown arguments");
 
   if (kill(cpid, SIGTERM) == 0) {
     return;
   } else {
     perror("Error terminating child process");
   };
+
 };

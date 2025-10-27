@@ -1,16 +1,16 @@
 - [X] Handle invalid commands
-- [X] REPL
-- [X] The exit and echo builtin
-- [X] The type builtin: builtins
-- [X] The type builtin: executable files
-- [X] Run a program
-- [X] Implement pwd
-- [X] cd builtin: Absolute paths
-- [X] Error handling for cd builtin: Absolute paths
-- [X] cd builtin: Relative paths
-- [X] Error handling for cd builtin: Relative paths
-- [X] cd builtin: Home directory 
-- [X] Single quotes
-- [X] Double quotes
+- [] REPL
+- [] The exit and echo builtin
+- [] The type builtin: builtins
+- [] The type builtin: executable files
+- [] Run a program
+- [] Implement pwd
+- [] cd builtin: Absolute paths
+- [] Error handling for cd builtin: Absolute paths
+- [] cd builtin: Relative paths
+- [] Error handling for cd builtin: Relative paths
+- [] cd builtin: Home directory 
+- [] Single quotes
+- [] Double quotes
 - [] Backslash outside quotes
 - [] Backslash within single quotes
