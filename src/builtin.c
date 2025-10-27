@@ -1,6 +1,3 @@
-#include "../include/builtin.h"
-#include "../include/utils.h"
-#include <errno.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -9,10 +6,12 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "../include/helper.h"
 #define SIZE 500
 const char *builtin[] = {"echo", "type", "exit", "pwd", "cd"};
 
-void coralis_cd(Args *args) {
+/*
+void builtin_cd(Args *args) {
 
   if (args->size == 0) {
     const char *env_variable = "HOME";
@@ -64,30 +63,32 @@ void coralis_cd(Args *args) {
   }
   return;
 };
+*/
 
-void coralis_pwd() {
+void builtin_pwd() {
   char *buffer = malloc(sizeof(char *) * SIZE);
-  getcwd(buffer, SIZE);
+  if (getcwd(buffer, SIZE) == NULL)
+    printf("error: Could not get path");
 
   printf("%s", buffer);
 };
 
-void coralis_exit(int status) { exit(1); }
-
-void coralis_echo(Args *data) { handle_str(data); };
-
-bool coralis_type(char *arg) {
+void builtin_exit(int status) { exit(1); }
+/*
+void builtin_echo(Args *data) { handle_str(data); };
+*/
+bool builtin_type(char *arg) {
   size_t size = sizeof(builtin) / sizeof(builtin[0]);
 
   for (size_t i = 0; i < size; ++i) {
     size_t arg_size = sizeof(&arg) / sizeof(arg[0]);
     size_t builtin_size = sizeof(&builtin[i]) / sizeof(builtin[i][0]);
     if (arg_size == builtin_size) {
-      if (strncmp(trim_space(arg), builtin[i], arg_size) == 0) {
+      if (strncmp(helper_trim_space(arg), builtin[i], arg_size) == 0) {
         return true;
       };
     }
   };
 
   return false;
-}
+};

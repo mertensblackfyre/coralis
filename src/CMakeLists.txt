@@ -1,8 +1,9 @@
 # Create a library from the source files
 add_library(coralis_lib
     builtin.c
-    parser.c
+    helper.c
     utils.c
+    args.c
 )
 
 # If you have a main.c, create an executable for it

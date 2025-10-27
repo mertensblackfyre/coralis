@@ -1,5 +1,5 @@
-#include "../include/parser.h"
 #include "../include/utils.h"
+#include "../include/args.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -17,12 +17,13 @@ int main(void) {
       printf("error: Could not get path");
 
     printf("\n\n%s $ ", buffer);
-    input = get_input();
+    input = utils_get_input();
 
-    // if (isbuiltin(input)) {
-    // continue;
+    //if (isbuiltin(input)) {
+      //continue;
     //};
-    utils_execute_program(input);
+    args_parse_arguments(input);
+ //   utils_execute_program(input);
     free(buffer);
     free(input);
   } while (true);
