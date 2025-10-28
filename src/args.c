@@ -49,7 +49,7 @@ Args_T *args_parse_arguments(char *input) {
   }
 
   strncpy(args_t->argv[args_t->argc++], word, wordc);
-
   free(word);
+
   return args_t;
 };

@@ -21,9 +21,7 @@ char *utils_get_input() {
 
 void utils_get_path(char *cmd) {
   int fd[2];
-  int fd_err[2];
   int fd_pipe = pipe(fd);
-  int fd_err_pipe = pipe(fd_err);
 
   char buffer[BUFFER_SIZE];
   char path[256] = "/usr/bin/";
@@ -33,22 +31,14 @@ void utils_get_path(char *cmd) {
 
   if (pid == 0) {
     dup2(fd[1], STDOUT_FILENO);
-    dup2(fd_err[1], STDERR_FILENO);
     char *args[] = {"which", cmd, NULL};
     execvp("which", args);
-
-    // If execvp fails, print an error and exit
     perror("execvp");
     exit(1);
   } else {
-
-    // Close unused pipe ends
     close(fd[1]);
-    close(fd_err[1]);
-
     size_t size = read(fd[0], buffer, BUFFER_SIZE);
     buffer[size - 1] = '\0';
-
     if (size != 0) {
       printf("%s is in %s", cmd, buffer);
       return;

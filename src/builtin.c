@@ -6,38 +6,35 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "../include/helper.h"
 #include "../include/args.h"
+#include "../include/helper.h"
+#include "../include/utils.h"
+#include "../include/builtin.h"
 #define SIZE 500
 const char *builtin[] = {"echo", "type", "exit", "pwd", "cd"};
 
-/*
-bool isbuiltin(char *input) {
+bool builtin_check(char *input) {
 
   size_t size = strlen(input);
-  char cmd[100];
 
-  char **args = args_parse_arguments(input);
+  Args_T *args_t = malloc(sizeof(Args_T));
+  args_t = args_parse_arguments(input);
 
-  for (size_t i = 0; i < size; ++i) {
-    if (input[i] != '\t' && input[i] != ' ') {
-      cmd[i] = input[i];
-    } else {
-      break;
-    };
-  };
 
-  if (strncmp("exit", cmd, 4) == 0) {
-    if (args->size == 0) {
-      coralis_exit(1);
+  if (strncmp("exit", args_t->argv[0], 4) == 0) {
+    if (args_t->argc == 0) {
+      builtin_exit(1);
       return true;
     }
-    int n = atoi((char *)args->data);
-    coralis_exit(n);
+    int n = atoi((char *)args_t->argv);
+    builtin_exit(n);
     return true;
   };
+
+  /*
   if (strncmp("echo", cmd, 4) == 0) {
-    coralis_echo(args);
+    // coralis_echo(args);
+    printf("it is");
     return true;
   };
   if (strncmp("pwd", cmd, 3) == 0) {
@@ -48,18 +45,17 @@ bool isbuiltin(char *input) {
     coralis_cd(args);
     return true;
   };
-  if (strncmp("type", cmd, 4) == 0) {
-    if (coralis_type(args->data[1]))
-      printf("%s is a shell builtin", args->data[1]);
+  */
+  if (strncmp("type", args_t->argv[0], 4) == 0) {
+    if (builtin_type(args_t->argv[1]))
+      printf("%s is a shell builtin", args_t->argv[1]);
     else
-      get_path(args->data[1]);
-
+     utils_get_path(args_t->argv[1]);
     return true;
   };
 
   return false;
 };
-*/
 /*
 void builtin_cd(Args *args) {
 
@@ -113,7 +109,6 @@ void builtin_cd(Args *args) {
   }
   return;
 };
-*/
 
 void builtin_pwd() {
   char *buffer = malloc(sizeof(char *) * SIZE);
@@ -123,7 +118,11 @@ void builtin_pwd() {
   printf("%s", buffer);
 };
 
-void builtin_exit(int status) { exit(1); }
+*/
+void builtin_exit(int status) {
+  exit(1);
+  return;
+}
 /*
 void builtin_echo(Args *data) { handle_str(data); };
 */

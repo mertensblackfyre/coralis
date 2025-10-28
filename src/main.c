@@ -1,5 +1,6 @@
-#include "../include/args.h"
 #include "../include/utils.h"
+
+#include "../include/builtin.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -19,10 +20,10 @@ int main(void) {
     printf("\n\n%s $ ", buffer);
     input = utils_get_input();
 
-    // if (isbuiltin(input)) {
-    // continue;
-    //};
-    utils_execute_program(input);
+    if (builtin_check(input)) {
+      continue;
+    };
+    //utils_execute_program(input);
     free(buffer);
     free(input);
   } while (true);
