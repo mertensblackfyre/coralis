@@ -7,9 +7,59 @@
 #include <unistd.h>
 
 #include "../include/helper.h"
+#include "../include/args.h"
 #define SIZE 500
 const char *builtin[] = {"echo", "type", "exit", "pwd", "cd"};
 
+/*
+bool isbuiltin(char *input) {
+
+  size_t size = strlen(input);
+  char cmd[100];
+
+  char **args = args_parse_arguments(input);
+
+  for (size_t i = 0; i < size; ++i) {
+    if (input[i] != '\t' && input[i] != ' ') {
+      cmd[i] = input[i];
+    } else {
+      break;
+    };
+  };
+
+  if (strncmp("exit", cmd, 4) == 0) {
+    if (args->size == 0) {
+      coralis_exit(1);
+      return true;
+    }
+    int n = atoi((char *)args->data);
+    coralis_exit(n);
+    return true;
+  };
+  if (strncmp("echo", cmd, 4) == 0) {
+    coralis_echo(args);
+    return true;
+  };
+  if (strncmp("pwd", cmd, 3) == 0) {
+    coralis_pwd();
+    return true;
+  };
+  if (strncmp("cd", cmd, 2) == 0) {
+    coralis_cd(args);
+    return true;
+  };
+  if (strncmp("type", cmd, 4) == 0) {
+    if (coralis_type(args->data[1]))
+      printf("%s is a shell builtin", args->data[1]);
+    else
+      get_path(args->data[1]);
+
+    return true;
+  };
+
+  return false;
+};
+*/
 /*
 void builtin_cd(Args *args) {
 
