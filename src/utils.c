@@ -82,7 +82,7 @@ void utils_execute_program(char *input) {
   if (strlen(cmd) == 0) {
     return;
   };
-
+/*
   char buffer[BUFFER_SIZE];
   int fd[2];
 
@@ -112,4 +112,5 @@ void utils_execute_program(char *input) {
   } else {
     perror("Error terminating child process");
   };
+  */
 };

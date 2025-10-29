@@ -48,7 +48,7 @@ Args_T *args_parse_arguments(char *input) {
     exit(1);
   }
 
-  strncpy(args_t->argv[args_t->argc++], word, wordc);
+  strncpy(args_t->argv[args_t->argc++], word, strlen(word));
   free(word);
 
   return args_t;
