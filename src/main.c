@@ -14,18 +14,21 @@ int main(void) {
   char *input;
   do {
     char *buffer = malloc(sizeof(char *) * SIZE);
-    if (getcwd(buffer, SIZE) == NULL)
-      printf("error: Could not get path");
+    if (getcwd(buffer, SIZE) == NULL) {
+      fprintf(stderr, "error: Could not get path");
+      exit(EXIT_FAILURE);
+    }
 
     printf("\n\n%s $ ", buffer);
     input = utils_get_input();
 
-    if (builtin_check(input)) {
-      continue;
-    };
+    // if (builtin_check(input)) {
+    // continue;
+    //};
+
     utils_execute_program(input);
     free(buffer);
-    free(input);
   } while (true);
-  return 0;
+
+  return EXIT_SUCCESS;
 };

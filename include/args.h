@@ -1,11 +1,11 @@
 #ifndef ARGS_H
 #define ARGS_H
 
-typedef struct Args_T {
+typedef struct args_t {
   int argc;
   char **argv;
-} Args_T;
+} args_t;
 
-Args_T  *args_parse_arguments(char *input);
+args_t *args_parse_arguments(char *input);
 
 #endif

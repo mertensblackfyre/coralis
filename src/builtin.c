@@ -7,9 +7,9 @@
 #include <unistd.h>
 
 #include "../include/args.h"
+#include "../include/builtin.h"
 #include "../include/helper.h"
 #include "../include/utils.h"
-#include "../include/builtin.h"
 #define SIZE 500
 const char *builtin[] = {"echo", "type", "exit", "pwd", "cd"};
 
@@ -17,16 +17,15 @@ bool builtin_check(char *input) {
 
   size_t size = strlen(input);
 
-  Args_T *args_t = malloc(sizeof(Args_T));
-  args_t = args_parse_arguments(input);
+  args_t *args = malloc(sizeof(args_t));
+  args = args_parse_arguments(input);
 
-
-  if (strncmp("exit", args_t->argv[0], 4) == 0) {
-    if (args_t->argc == 0) {
+  if (strncmp("exit", args->argv[0], 4) == 0) {
+    if (args->argc == 0) {
       builtin_exit(1);
       return true;
     }
-    int n = atoi((char *)args_t->argv);
+    int n = atoi((char *)args->argv);
     builtin_exit(n);
     return true;
   };
@@ -46,11 +45,11 @@ bool builtin_check(char *input) {
     return true;
   };
   */
-  if (strncmp("type", args_t->argv[0], 4) == 0) {
-    if (builtin_type(args_t->argv[1]))
-      printf("%s is a shell builtin", args_t->argv[1]);
+  if (strncmp("type", args->argv[0], 4) == 0) {
+    if (builtin_type(args->argv[1]))
+      printf("%s is a shell builtin", args->argv[1]);
     else
-     utils_get_path(args_t->argv[1]);
+      utils_get_path(args->argv[1]);
     return true;
   };
 

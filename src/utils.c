@@ -1,7 +1,6 @@
 #include "../include/args.h"
 #include <ctype.h>
 #include <fcntl.h>
-#include <signal.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -76,13 +75,13 @@ char *utils_get_command(char *input) {
 void utils_execute_program(char *input) {
 
   char *cmd = utils_get_command(input);
-  Args_T *args_t = malloc(sizeof(Args_T));
-  args_t = args_parse_arguments(input);
-
   if (strlen(cmd) == 0) {
     return;
   };
-/*
+
+  args_t *args = calloc(1, sizeof(args_t));
+  args = args_parse_arguments(input);
+
   char buffer[BUFFER_SIZE];
   int fd[2];
 
@@ -96,7 +95,7 @@ void utils_execute_program(char *input) {
 
   if (cpid == 0) {
     dup2(fd[1], STDOUT_FILENO);
-    execvp(cmd, args_t->argv);
+    execvp(cmd, args->argv);
     printf("%s: command not found", cmd);
     return;
   } else {
@@ -112,5 +111,4 @@ void utils_execute_program(char *input) {
   } else {
     perror("Error terminating child process");
   };
-  */
 };

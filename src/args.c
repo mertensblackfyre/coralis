@@ -8,48 +8,54 @@
 
 #include "../include/args.h"
 
-Args_T *args_parse_arguments(char *input) {
+args_t *args_parse_arguments(char *input) {
 
   int size = strlen(input);
-  Args_T *args_t = malloc(sizeof(Args_T));
+  args_t *args = calloc(1, sizeof(args_t));
 
-  char *word = (char *)malloc((size + 1) * sizeof(char));
-  args_t->argv = (char **)malloc(size * sizeof(char *));
+  char word[size + 1];
+  args->argv = (char **)malloc(size * 2 * sizeof(char *));
 
-  int wordc = 0;
-
-  if (word == NULL || args_t->argv == NULL) {
+  char **args_p = args->argv;
+  if (args->argv == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
-    exit(1);
+    exit(EXIT_FAILURE);
   };
 
-  for (int i = 0; i < size; ++i) {
-    if (isspace(input[i]) == 0) {
-      word[wordc++] = input[i];
-    } else {
-      word[wordc] = '\0';
-      args_t->argv[args_t->argc] = (char *)malloc((wordc + 1) * sizeof(char));
+  int wordc = 0;
+  char *word_p;
 
-      if (args_t->argv[args_t->argc] == NULL) {
+  word_p = &word[0];
+
+  for (int i = 0; i < size; ++i) {
+    if (!isspace(input[i])) {
+      *word_p = input[i];
+      word_p++;
+      wordc++;
+    } else {
+      *word_p = '\0';
+      *args->argv = malloc((wordc + 1) * sizeof(char *));
+      if (*args->argv == NULL) {
         fprintf(stderr, "Memory allocation failed for word %d\n", i);
-        exit(1);
+        exit(EXIT_FAILURE);
       }
-      strncpy(args_t->argv[args_t->argc], word, wordc);
-      args_t->argc++;
+      strncpy(*args->argv, word, wordc);
+      args->argc++;
+      args->argv++;
+      word_p = &word[0];
       wordc = 0;
     }
   };
 
-  args_t->argv[args_t->argc] =
-      (char *)malloc((strlen(word) + 1) * sizeof(char));
-
-  if (args_t->argv[args_t->argc] == NULL) {
+  *word_p = '\0';
+  *args->argv = malloc((wordc + 1) * sizeof(char *));
+  if (*args->argv == NULL) {
     fprintf(stderr, "Memory allocation failed for word\n");
-    exit(1);
+    exit(EXIT_FAILURE);
   }
-
-  strncpy(args_t->argv[args_t->argc++], word, strlen(word));
-  free(word);
-
-  return args_t;
+  strncpy(*args->argv, word, strlen(word));
+  args->argc++;
+  args->argv = args_p;
+  
+  return args;
 };
