@@ -7,24 +7,27 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define SIZE 500
+#define SIZE 1024
 
 int main(void) {
 
   char *input;
+
   do {
+
     char *buffer = malloc(sizeof(char *) * SIZE);
+
     if (getcwd(buffer, SIZE) == NULL) {
       fprintf(stderr, "error: Could not get path");
       exit(EXIT_FAILURE);
     }
 
-    printf("\n\n%s $ ", buffer);
+    printf("> ");
     input = utils_get_input();
 
-    // if (builtin_check(input)) {
-    // continue;
-    //};
+    if (builtin_check(input)) {
+      continue;
+    };
 
     utils_execute_program(input);
     free(buffer);

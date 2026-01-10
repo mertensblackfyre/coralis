@@ -9,7 +9,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#define BUFFER_SIZE 20240
+#define BUFFER_SIZE 1024
 
 char *utils_get_input() {
   char *input = malloc(sizeof(char) * 100);
@@ -26,23 +26,28 @@ void utils_get_path(char *cmd) {
   char path[256] = "/usr/bin/";
   strcat(path, cmd);
 
-  pid_t pid = fork();
+  pid_t cpid = fork();
 
-  if (pid == 0) {
+  if (cpid == 0) {
     dup2(fd[1], STDOUT_FILENO);
     char *args[] = {"which", cmd, NULL};
     execvp("which", args);
     perror("execvp");
     exit(1);
   } else {
-    close(fd[1]);
+    int status;
+    waitpid(cpid, &status, 0);
     size_t size = read(fd[0], buffer, BUFFER_SIZE);
     buffer[size - 1] = '\0';
+
+    close(fd[0]);
+    close(fd[1]);
+
     if (size != 0) {
-      printf("%s is in %s", cmd, buffer);
+      printf("%s is in %s\n", cmd, buffer);
       return;
     }
-    printf("%s: not found", cmd);
+    printf("%s: not found\n", cmd);
 
     return;
   };
@@ -96,19 +101,14 @@ void utils_execute_program(char *input) {
   if (cpid == 0) {
     dup2(fd[1], STDOUT_FILENO);
     execvp(cmd, args->argv);
-    printf("%s: command not found", cmd);
-    return;
+    printf("%s: command not found\n", cmd);
   } else {
+    int status;
+    waitpid(cpid, &status, 0);
     size_t size = read(fd[0], buffer, BUFFER_SIZE);
     buffer[size] = '\0';
     close(fd[0]);
     close(fd[1]);
     printf("%s", buffer);
-  };
-
-  if (kill(cpid, SIGTERM) == 0) {
-    return;
-  } else {
-    perror("Error terminating child process");
   };
 };
