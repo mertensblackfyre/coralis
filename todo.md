@@ -2,9 +2,9 @@
 - [X] REPL
 - [X] The exit and echo builtin
 - [X] The type builtin: builtins
-- [] The type builtin: executable files
+- [X] The type builtin: executable files
 - [] Run a program
-- [] Implement pwd
+- [X] Implement pwd
 - [] cd builtin: Absolute paths
 - [] Error handling for cd builtin: Absolute paths
 - [] cd builtin: Relative paths

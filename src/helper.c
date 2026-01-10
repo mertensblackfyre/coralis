@@ -25,7 +25,7 @@ char *helper_backtrack_path(char *s, int count) {
   return s;
 };
 
-int helper_count_substrs(char *s) {
+int helper_count_substrings(char *s) {
 
   size_t size = strlen(s);
   int count = 0;

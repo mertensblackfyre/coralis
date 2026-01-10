@@ -34,17 +34,16 @@ bool builtin_check(char *input) {
   };
 
   if (strncmp("echo", args->argv[0], 4) == 0) {
-    // coralis_echo(args);
-    //
     builtin_echo(args);
     return true;
   };
   if (strncmp("pwd", args->argv[0], 3) == 0) {
-    builtin_echo(args);
+    builtin_pwd();
     return true;
   };
 
   if (strncmp("cd", args->argv[0], 2) == 0) {
+    builtin_cd(args);
     return true;
   };
 
@@ -60,7 +59,7 @@ bool builtin_check(char *input) {
 };
 void builtin_cd(args_t *args) {
 
-  if (args->argc == 0) {
+  if (args->argc == 1) {
     const char *env_variable = "HOME";
     char *value = getenv(env_variable);
     char *path = value;
@@ -114,9 +113,9 @@ void builtin_cd(args_t *args) {
 void builtin_pwd() {
   char *buffer = malloc(sizeof(char *) * SIZE);
   if (getcwd(buffer, SIZE) == NULL)
-    printf("error: Could not get path");
+    printf("error: Could not get path\n");
 
-  printf("%s", buffer);
+  printf("%s\n", buffer);
 };
 void builtin_exit(int status) {
   exit(1);

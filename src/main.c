@@ -31,6 +31,7 @@ int main(void) {
 
     utils_execute_program(input);
     free(buffer);
+    free(input);
   } while (true);
 
   return EXIT_SUCCESS;
