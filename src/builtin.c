@@ -99,13 +99,13 @@ void builtin_cd(args_t *args) {
 
   if (err == -1) {
     if (errno == ENOENT)
-      printf("Error: directory specified in path does not exist.");
+      fprintf(stderr, "Error: directory specified in path does not exist\n");
 
     if (errno == EACCES)
-      printf("Error: permission was denied.");
+      fprintf(stderr, "Error: permission was denied\n");
 
     if (errno == ENOTDIR)
-      printf("Error: path is not a directory.");
+      fprintf(stderr, "Error: path is not a directory\n");
   }
   return;
 };
