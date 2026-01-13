@@ -24,16 +24,14 @@ int main(void) {
       exit(EXIT_FAILURE);
     }
 
-    printf("> ");
+    printf("$ ");
     input = utils_get_input();
-    /*
     if (builtin_check(input)) {
       continue;
     };
 
     utils_execute_program(input);
-   */
-    args_parse_arguments(input);
+   //args_parse_arguments(input);
     free(buffer);
     free(input);
   } while (true);

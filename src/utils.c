@@ -9,7 +9,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 10240
 
 char *utils_get_input() {
   char *input = malloc(sizeof(char) * 100);
