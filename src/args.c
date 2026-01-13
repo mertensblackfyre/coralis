@@ -127,6 +127,11 @@ args_t *args_parse_arguments(char *input) {
     }
   };
 
+  if (wordc == 0) {
+    args->argv = args_p;
+    return args;
+  }
+
   *word_p = '\0';
   *args->argv = malloc((wordc + 1) * sizeof(char *));
   if (*args->argv == NULL) {
@@ -137,12 +142,5 @@ args_t *args_parse_arguments(char *input) {
   strncpy(*args->argv, word, strlen(word));
   args->argc++;
   args->argv = args_p;
-
-  for (int i = 0; i < args->argc; ++i) {
-    //  printf("%s\n", args->argv[i]);
-  };
-
-  printf("%d\n", args->argc);
-
   return args;
 };
