@@ -26,18 +26,27 @@ args_t *args_parse_arguments(char *input) {
   word_p = &word[0];
 
   bool in_single_quote = false, in_double_quote = false;
-  /*
-   *
-   *    Handle double quotes
-   *
-   */
+
   for (int i = 0; i < size; ++i) {
     if (input[i] == '"' && !in_double_quote) {
       in_double_quote = true;
+
       while (in_double_quote) {
         i++;
+
         if (input[i] == '"' && in_double_quote) {
+
+          if (input[i + 1] == NULL) {
+            continue;
+          }
+          // Handle quoted strings next to each other are concatenated.
+          if (input[i] == '"' && input[i + 1] == '"') {
+            i++;
+            in_double_quote = false;
+            continue;
+          };
           in_double_quote = false;
+
           i++;
           *word_p = '\0';
           *args->argv = malloc((wordc + 1) * sizeof(char *));
@@ -58,11 +67,6 @@ args_t *args_parse_arguments(char *input) {
       };
     };
 
-    /*
-     *
-     *    Handle single quotes
-     *
-     */
     if (input[i] == '\'' && !in_single_quote) {
       in_single_quote = true;
       while (in_single_quote) {
@@ -119,7 +123,7 @@ args_t *args_parse_arguments(char *input) {
   args->argv = args_p;
 
   for (int i = 0; i < args->argc; ++i) {
-   //printf("%s\n", args->argv[i]);
+    printf("%s\n", args->argv[i]);
   };
 
   return args;
