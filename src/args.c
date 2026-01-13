@@ -36,9 +36,6 @@ args_t *args_parse_arguments(char *input) {
 
         if (input[i] == '"' && in_double_quote) {
 
-          if (input[i + 1] == NULL) {
-            continue;
-          }
           // Handle quoted strings next to each other are concatenated.
           if (input[i] == '"' && input[i + 1] == '"') {
             i++;
