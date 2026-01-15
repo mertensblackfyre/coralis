@@ -11,6 +11,7 @@ args_t *args_parse_arguments(char *input) {
 
   int size = strlen(input);
   args_t *args = calloc(1, sizeof(args_t));
+  args->has_operator = false;
 
   char word[size + 1];
   args->argv = (char **)malloc(size * 2 * sizeof(char *));
@@ -28,6 +29,10 @@ args_t *args_parse_arguments(char *input) {
   bool in_single_quote = false, in_double_quote = false;
 
   for (int i = 0; i < size; ++i) {
+    if (input[i] == '>') {
+      args->has_operator = true;
+    };
+
     if (input[i] == '"' && !in_double_quote) {
       in_double_quote = true;
       while (in_double_quote) {
@@ -91,7 +96,7 @@ args_t *args_parse_arguments(char *input) {
         }
       };
 
-      if (!in_single_quote && !in_double_quote) {
+      if (!in_single_quote) {
         i++;
         *word_p = '\0';
         *args->argv = malloc((wordc + 1) * sizeof(char *));
@@ -129,6 +134,10 @@ args_t *args_parse_arguments(char *input) {
 
   if (wordc == 0) {
     args->argv = args_p;
+
+    //printf("%b", args->has_operator);
+    //for (int i = 0; i < size; ++i) {
+    //}
     return args;
   }
 
@@ -142,5 +151,7 @@ args_t *args_parse_arguments(char *input) {
   strncpy(*args->argv, word, strlen(word));
   args->argc++;
   args->argv = args_p;
+
+ // printf("%b", args->has_operator);
   return args;
 };

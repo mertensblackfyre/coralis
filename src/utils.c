@@ -1,3 +1,4 @@
+#include "../include/utils.h"
 #include "../include/args.h"
 #include <ctype.h>
 #include <fcntl.h>
@@ -66,7 +67,7 @@ char *utils_get_command(char *input) {
   }
 
   for (int i = 0; i < size; ++i) {
-    if (input[i] == '"')
+    if (input[i] == '"' || input[i] == '\'')
       continue;
 
     if (isspace(input[i]) == 0)
@@ -88,6 +89,7 @@ void utils_execute_program(char *input) {
   args = args_parse_arguments(input);
 
   char buffer[BUFFER_SIZE];
+
   int fd[2];
 
   int fd_pipe = pipe(fd);
@@ -109,6 +111,18 @@ void utils_execute_program(char *input) {
     buffer[size] = '\0';
     close(fd[0]);
     close(fd[1]);
-    printf("%s", buffer);
+    if (args->has_operator) {
+      printf("here");
+      utils_redirect_stdout(buffer, args);
+      return;
+    }
+
+    printf("here1");
+    //   printf("%s", buffer);
   };
+};
+
+void utils_redirect_stdout(const char *buffer, const args_t *args) {
+  // printf("%s\n", buffer);
+  printf("------%s\n", args->argv[args->argc]);
 };

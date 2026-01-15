@@ -2,7 +2,6 @@
 
 #include "../include/builtin.h"
 
-#include "../include/args.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -23,15 +22,14 @@ int main(void) {
       fprintf(stderr, "error: Could not get path");
       exit(EXIT_FAILURE);
     }
-
     printf("$ ");
     input = utils_get_input();
+
     if (builtin_check(input)) {
       continue;
     };
-
     utils_execute_program(input);
-    //  args_parse_arguments(input);
+    //args_parse_arguments(input);
     free(buffer);
     free(input);
   } while (true);
