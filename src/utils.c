@@ -90,6 +90,10 @@ void utils_execute_program(char *input) {
 
   char buffer[BUFFER_SIZE];
 
+  if (args->has_operator) {
+    utils_redirect_stdout(buffer, args);
+    return;
+  }
   int fd[2];
 
   int fd_pipe = pipe(fd);
@@ -111,18 +115,32 @@ void utils_execute_program(char *input) {
     buffer[size] = '\0';
     close(fd[0]);
     close(fd[1]);
-    if (args->has_operator) {
-      printf("here");
-      utils_redirect_stdout(buffer, args);
-      return;
-    }
-
-    printf("here1");
-    //   printf("%s", buffer);
+    //   printf("here1");
+    printf("%s", buffer);
   };
 };
 
 void utils_redirect_stdout(const char *buffer, const args_t *args) {
-  // printf("%s\n", buffer);
-  printf("------%s\n", args->argv[args->argc]);
+
+  char **p = malloc(sizeof(char *) * args->argc / 2);
+  char **q = p;
+  if (p == NULL) {
+    fprintf(stderr, "Failed to allocate space");
+    return;
+  };
+
+  for (int i = 0; i < args->argc; ++i) {
+    int s = strlen(args->argv[i]);
+    printf("%d", s);
+    if (strncmp(args->argv[i], ">", 1))
+      break;
+
+    *p = malloc(sizeof(char *) * s + 1);
+    strncpy(*p, args->argv[i], s + 1);
+    p++;
+  };
+
+  for (int i = 0; i < args->argc / 2; ++i) {
+    printf("%s\n", q[i]);
+  };
 };
