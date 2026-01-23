@@ -17,6 +17,7 @@ args_t *args_parse_arguments(char *input) {
   args->argv = (char **)malloc(size * 2 * sizeof(char *));
 
   char **args_p = args->argv;
+
   if (args->argv == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
     exit(EXIT_FAILURE);

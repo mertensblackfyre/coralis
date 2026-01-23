@@ -1,5 +1,6 @@
 #include "../include/utils.h"
 #include "../include/args.h"
+#include <cmath>
 #include <ctype.h>
 #include <fcntl.h>
 #include <stdbool.h>
@@ -115,32 +116,40 @@ void utils_execute_program(char *input) {
     buffer[size] = '\0';
     close(fd[0]);
     close(fd[1]);
-    //   printf("here1");
     printf("%s", buffer);
   };
 };
 
 void utils_redirect_stdout(const char *buffer, const args_t *args) {
 
-  char **p = malloc(sizeof(char *) * args->argc / 2);
-  char **q = p;
-  if (p == NULL) {
+  bool is_filename = false;
+  char **cmd = (char **)malloc(sizeof(char *) * args->argc / 2);
+  char *filename = (char *)malloc(sizeof(char) * args->argc / 2);
+
+  if (cmd == NULL) {
     fprintf(stderr, "Failed to allocate space");
     return;
   };
 
   for (int i = 0; i < args->argc; ++i) {
-    int s = strlen(args->argv[i]);
-    printf("%d", s);
-    if (strncmp(args->argv[i], ">", 1))
+    if (!strncmp(args->argv[i], ">", 1)) {
+      if (args->argv[i + 1] == NULL)
+        break;
+      i++;
+      strncpy(filename, args->argv[i], strlen(args->argv[i]));
       break;
+    };
 
-    *p = malloc(sizeof(char *) * s + 1);
-    strncpy(*p, args->argv[i], s + 1);
-    p++;
+    *cmd = malloc(sizeof(char *) * strlen(args->argv[i]));
+    if (*cmd == NULL) {
+      fprintf(stderr, "Failed to allocate space");
+      return;
+    };
+    strncpy(*cmd, args->argv[i], strlen(args->argv[i]));
+    cmd++;
   };
+  printf("%s\n", filename);
 
-  for (int i = 0; i < args->argc / 2; ++i) {
-    printf("%s\n", q[i]);
-  };
 };
+void utils_append_file(const char *filename, const bool append,
+                       const bool overwrite);
