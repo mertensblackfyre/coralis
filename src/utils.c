@@ -152,4 +152,9 @@ void utils_redirect_stdout(const char *buffer, const args_t *args) {
 
 };
 void utils_append_file(const char *filename, const bool append,
-                       const bool overwrite);
+                       const bool overwrite){
+
+
+
+
+};
